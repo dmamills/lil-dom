@@ -1,0 +1,20 @@
+{
+  "name": "lil-dom",
+  "version": "1.0.0",
+  "description": "",
+  "author": "dmamills",
+  "main": "./src/ld.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha tests/test.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "jsdom": "11.0.0",
+    "jsdom-global": "3.0.2",
+    "mocha": "^3.4.2",
+    "mocha-sinon": "^2.0.0",
+    "should": "^11.2.1",
+    "sinon": "^2.3.4",
+    "should-sinon": "0.0.5"
+  }
+}
