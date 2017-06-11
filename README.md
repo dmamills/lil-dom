@@ -1,6 +1,6 @@
 # lil' dom
 
-<img src="https://travis-ci.org/dmamills/lil-dom.svg?branch=master" />
+[![Build Status](https://travis-ci.org/dmamills/lil-dom.svg?branch=master)](https://travis-ci.org/dmamills/lil-dom)
 
 a bit of a hyperscript esque experiment
 
