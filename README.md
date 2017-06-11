@@ -1,5 +1,7 @@
 # lil' dom
 
+<img src="https://travis-ci.org/dmamills/lil-dom.svg?branch=master" />
+
 a bit of a hyperscript esque experiment
 
 ## api
