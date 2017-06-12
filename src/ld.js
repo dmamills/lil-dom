@@ -1,9 +1,13 @@
 
+const SELECTOR_REGEX = /([\.#]?[^\s#.]+)/;
+
 function split(s,r) {
   return s.split(r);
 }
 
-const SELECTOR_REGEX = /([\.#]?[^\s#.]+)/;
+function isObject(a) {
+    return (!!a) && (a.constructor === Object);
+}
 
 function createEl(str) {
   var tags = split(str, SELECTOR_REGEX);
@@ -28,26 +32,7 @@ function createEl(str) {
   
   return el;
 }
-function isObject(a) {
-    return (!!a) && (a.constructor === Object);
-}
 
-function applyAttributes(el, attrs) {
-
-  for(var key in attrs) {
-    var value = attrs[key] 
-    if(key === 'style') {
-      el.setAttribute('style', parseStyles(attrs[key]));
-    } else if(key.startsWith('on')) {
-      if(typeof attrs[key] !== 'function') throw new Error('Event listener must be function');
-      else el.addEventListener(key.slice(2), attrs[key]);
-    } else {
-      el.setAttribute(key, attrs[key]);
-    }
-  }
-  
-  return el;
-}
 
 function parseArray(rootEl, arr) {
   arr.forEach(a => {
@@ -72,6 +57,25 @@ function parseStyles(styles) {
   return r;
 }
 
+function applyAttributes(el, attrs) {
+
+  for(var key in attrs) {
+    var value = attrs[key] 
+    if(key === 'style') {
+      el.setAttribute('style', parseStyles(attrs[key]));
+    } else if(key.startsWith('on')) {
+      if(typeof attrs[key] !== 'function') throw new Error('Event listener must be function');
+      else el.addEventListener(key.slice(2), attrs[key]);
+    } else {
+      el.setAttribute(key, attrs[key]);
+    }
+  }
+  
+  return el;
+}
+
+
+
 
 function ld() {
   var args = [...arguments];
@@ -87,6 +91,10 @@ function ld() {
       parseArray(el, arg);
     } else if(isObject(arg)) {
       el = applyAttributes(el, arg);
+    } else if(arg instanceof HTMLElement) {
+      el.appendChild(arg);
+    } else {
+      console.log('Unhandled argument: ' + arg);
     }
   });
 

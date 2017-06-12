@@ -1,6 +1,7 @@
 require('jsdom-global')()
 require('mocha-sinon');
 require('should-sinon');
+
 const should = require('should');
 const sinon = require('sinon');
 const ld = require('../src/ld');
@@ -68,5 +69,25 @@ describe('lil-dom', () => {
     var e = new Event('click');
     el.dispatchEvent(e);
     handlerFn.should.be.calledOnce();
+  });
+
+  it('accept child nodes', () => {
+    var el = ld('ul', [
+      [1,2,3,4,5].map(v => ld('li', `${v}`))
+    ])
+
+    el.children.length.should.equal(5);
+    [].forEach.call(el.children, (n, idx) => {
+      n.tagName.should.equal('LI');
+      n.innerHTML.should.equal(`${idx+1}`);
+    });
+  });
+
+  it('accepts html elements', () => {
+    var el = ld('p', 'some text', ld('a', { href: 'http://example.com/' }, 'a link'));
+
+    el.children[0].tagName.should.equal('A');
+    el.children[0].href.should.equal('http://example.com/');
+
   });
 });
