@@ -10,7 +10,12 @@ var styles = ld('style', `
    margin: 0;
  }
 
+ h2, h3, p {
+  color: #30373b;
+ }
+
  pre {
+  display: inline-block;
   border-radius: 5px;
   padding: 0.8rem;
   background: lightgrey;
@@ -23,14 +28,17 @@ var styles = ld('style', `
  }
 
  .sections {
-  width: 80%;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+ }
+
+ section {
+  padding: 1.25rem;
  }
 
  nav {
    display: flex;
-   border-top: 1px solid black;
-   border-bottom: 1px solid black;
+   border-bottom: 1px solid #30373b;
  }
 
 a.nav-item {
@@ -43,8 +51,11 @@ a.nav-item {
   text-transform: uppercase;
 }
 
-footer {
+footer p {
   color: #fff;
+}
+
+footer {
   background-color: #30373b;
   border-top: 1px solid black;
   padding: 1rem;
@@ -65,25 +76,28 @@ footer p {
 
 `);
 
-
-
 //handy for quick linkin'
 function anchor(href, text) {
   return ld('a', { href }, text);
 }
 
 /**
- * Basic Section
+ * Basic Section, each section is made up of:
+ * content, a HtmlElement
+ * examples, a templated string
+ * results, a templated string
+ * html, => rendered at the end
  */
 var basic = { id: 'basic' };
 basic.content =  ld('p', 'lil-dom is a just another h clone. inspired by ',
    anchor('https://github.com/hyperhype/hyperscript', 'hyperscript'),
   ' and the ',
    anchor('https://github.com/hyper2/h2spec', 'h2 spec.'),
-  ' It\'s a simple way to build out dom nodes, this entire example page is built with it!'
+  ' It\'s a simple way to build out dom nodes. In fact this entire example page is built with it, look how ',
+  anchor('https://github.com/dmamills/lil-dom/blob/master/example.js', 'here!')
 )
 
-basic.examples = `// h(<tagname>, ...(<string> | <options> | <Array>)
+basic.examples = `// ld(<tagname>, ...(<string> | <options> | <Array> | <HtmlElement>))
 ld('h1', 'Some header')
 ld('h1.primary', 'header with class')
 ld('h1#primary', 'header with id')
@@ -116,7 +130,7 @@ options.results = `<a href="http://example.com/">a link</a>
 /**
  * Events section
  */
-var events = {id: 'events' };
+var events = { id: 'events' };
 events.content = ld('p', 'Events handlers can be bound by passing in the attributes object. Note: handler functions are not inlined, but attached through addEventListener.');
 events.examples = `ld('button', { 'onclick': (e) => { console.log('clicked me!'); }, 'click me')`
 events.results = `<button>click me</button>`;
@@ -139,25 +153,23 @@ nesting.results = `<p>My paragraph has a <a href="http://example.com/">link</a> 
   <div class="kid">5</div>
 </div>`
 
-
 /**
  * Build out an example section, content should be a node
  */
-function renderSection(id, title, content, src, result) {
-  return ld(`section#${id}`, [
-    ld('h2', `${title}`),
-    content,
-    ld('h3', `${title} Examples`),
-    ld('pre', src),
+function renderSection(section) {
+  return ld(`section#${section.id}`, [
+    ld('h2', `${section.title}`),
+    section.content,
+    ld('pre', section.examples),
     ld('.becomes', 'Becomes'),
-    ld('pre', result),
+    ld('pre', section.results),
   ]);
 }
 
 //Render each section
 var sections = [basic, options, events, nesting].map(s => {
-  var title = s.id[0].toUpperCase() + s.id.substr(1)
-  s.html = renderSection(s.id, title, s.content, s.examples, s.results);
+  s.title = s.id[0].toUpperCase() + s.id.substr(1)
+  s.html = renderSection(s);
   return s;
 });
 
