@@ -4,9 +4,14 @@ require('should-sinon');
 
 const should = require('should');
 const sinon = require('sinon');
-const ld = require('../src/ld');
 
-describe('lil-dom', () => {
+const NodeStrategy = require('../src/NodeStrategy');
+const JsonStrategy = require('../src/JsonStrategy');
+const h = require('../src/h');
+
+describe('Node Strategy', () => {
+
+  let ld = h(NodeStrategy);
 
   it('should make a named element', () => {
     var el = ld('h1');
@@ -41,7 +46,7 @@ describe('lil-dom', () => {
     el2.innerHTML.should.equal('my text more text');
   });
 
-  it('should accept inline styles as an objecet', () => {
+  it('should accept inline styles as an object', () => {
     var el = ld('.style-test', 'styling', {
       'style': {
         'border': '1px solid black'
@@ -63,7 +68,7 @@ describe('lil-dom', () => {
     const handlerFn = sinon.spy();
 
     var el = ld('button.test','click me!', {
-      'onclick': handlerFn 
+      'onclick': handlerFn
     });
 
     var e = new Event('click');
@@ -91,3 +96,5 @@ describe('lil-dom', () => {
 
   });
 });
+
+

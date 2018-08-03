@@ -1,3 +1,6 @@
+var NodeStrategy = require('./index').NodeStrategy;
+var h = require('./index').h;
+var ld = h(NodeStrategy);
 
 // you can even style the world!
 var styles = ld('style', `

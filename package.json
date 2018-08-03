@@ -1,12 +1,12 @@
 {
   "name": "lil-dom",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "make lil dom nodes",
   "author": "dmamills",
   "repository": "dmamills/lil-dom",
   "main": "./src/ld.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha tests/test.js"
+    "test": "./node_modules/.bin/mocha tests/*.js"
   },
   "license": "MIT",
   "devDependencies": {
